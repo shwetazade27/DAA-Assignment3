@@ -1,0 +1,140 @@
+1) Linear Search
+
+Code :
+
+#include <iostream>
+using namespace std;
+
+int search(int arr[], int N, int x)
+{
+	int i;
+	for (i = 0; i < N; i++)
+		if (arr[i] == x)
+			return i;
+	return -1;
+}
+
+int main(void)
+{
+	int arr[] = { 2, 3, 4, 10, 40 };
+	int x = 10;
+	int N = sizeof(arr) / sizeof(arr[0]);
+
+	// Function call
+	int result = search(arr, N, x);
+	(result == -1)
+		? cout << "Element is not present in array"
+		: cout << "Element is present at index " << result;
+	return 0;
+}
+
+******************************************************************************************************************************************************
+
+2) Binary Search
+
+Code:
+
+#include <bits/stdc++.h>
+using namespace std;
+
+// A recursive binary search function. It returns
+// location of x in given array arr[l..r] is present,
+// otherwise -1
+int binarySearch(int arr[], int l, int r, int x)
+{
+	if (r >= l) {
+		int mid = l + (r - l) / 2;
+
+		// If the element is present at the middle
+		// itself
+		if (arr[mid] == x)
+			return mid;
+
+		// If element is smaller than mid, then
+		// it can only be present in left subarray
+		if (arr[mid] > x)
+			return binarySearch(arr, l, mid - 1, x);
+
+		// Else the element can only be present
+		// in right subarray
+		return binarySearch(arr, mid + 1, r, x);
+	}
+
+	// We reach here when element is not
+	// present in array
+	return -1;
+}
+
+int main(void)
+{
+	int arr[] = { 2, 3, 4, 10, 40 };
+	int x = 10;
+	int n = sizeof(arr) / sizeof(arr[0]);
+	int result = binarySearch(arr, 0, n - 1, x);
+	(result == -1)
+		? cout << "Element is not present in array"
+		: cout << "Element is present at index " << result;
+	return 0;
+}
+
+*********************************************************************************************************************************
+
+3) Jump Search
+
+Code:
+
+
+#include <bits/stdc++.h>
+using namespace std;
+
+int jumpSearch(int arr[], int x, int n)
+{
+	
+	int step = sqrt(n);
+
+	// Finding the block where element is
+	// present (if it is present)
+	int prev = 0;
+	while (arr[min(step, n)-1] < x)
+	{
+		prev = step;
+		step += sqrt(n);
+		if (prev >= n)
+			return -1;
+	}
+
+	// Doing a linear search for x in block
+	// beginning with prev.
+	while (arr[prev] < x)
+	{
+		prev++;
+
+		// If we reached next block or end of
+		// array, element is not present.
+		if (prev == min(step, n))
+			return -1;
+	}
+	// If element is found
+	if (arr[prev] == x)
+		return prev;
+
+	return -1;
+}
+
+int main()
+{
+	int arr[] = { 0, 1, 1, 2, 3, 5, 8, 13, 21,
+				34, 55, 89, 144, 233, 377, 610 };
+	int x = 55;
+	int n = sizeof(arr) / sizeof(arr[0]);
+	
+	// Find the index of 'x' using Jump Search
+	int index = jumpSearch(arr, x, n);
+
+	// Print the index where 'x' is located
+	cout << "\nNumber " << x << " is at index " << index;
+	return 0;
+}
+
+
+
